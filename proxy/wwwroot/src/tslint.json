@@ -1,0 +1,38 @@
+{
+    "extends": "tslint:recommended",
+    "defaultSeverity": "error",
+    "rules": {
+        "comment-format": {
+            "options": ["check-space", "check-uppercase"]
+        },
+        "quotemark": {
+            "options": [
+                "single",
+                "avoid-escape"
+            ]
+        },
+        "variable-name": {
+            "options": [
+                "ban-keywords",
+                "check-format"
+            ]
+        }
+    },
+    "jsRules": {
+        "comment-format": {
+            "options": ["check-space", "check-uppercase"]
+        },
+        "quotemark": {
+            "options": [
+                "single",
+                "avoid-escape"
+            ]
+        },
+        "variable-name": {
+            "options": [
+                "ban-keywords",
+                "check-format"
+            ]
+        }
+    }
+}
