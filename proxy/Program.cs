@@ -1,6 +1,7 @@
 using System.IO;
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace proxy
@@ -14,6 +15,11 @@ namespace proxy
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile(
+                        "appsettings.json", optional: false, reloadOnChange: true);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
