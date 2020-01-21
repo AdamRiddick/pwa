@@ -7,7 +7,7 @@
     "build:api": "dotnet build ../../proxy.sln -c debug",
     "preinstall": "node -e \"!process.env.npm_config_user_agent.startsWith('pnpm/')&&!console.log('Use `npx pnpm install` to install dependencies in this repository\\n')&&process.exit(1)\"",
     "start": "dotnet run --project ../../proxy.csproj -c debug",
-    "webpack": "npx webpack --env.mode development --env.presets serviceworker"
+    "webpack": "npx webpack --env.mode development --env.presets serviceworker --watch"
   },
   "keywords": [],
   "author": "Adam Riddick<adam.riddick@googlemail.com",

@@ -1,0 +1,1 @@
+webpack --env.mode development --env.presets serviceworker --watch
