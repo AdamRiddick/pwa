@@ -41,7 +41,13 @@ module.exports = (env) => {
             minifyJS: true
           }
         }),
-        new CspHtmlWebpackPlugin(),
+        new CspHtmlWebpackPlugin({
+          'default-src': "'self'",
+          'base-uri': "'self'",
+          'object-src': "'none'",
+          'script-src': ["'self'"],
+          'style-src': ["'self'"]
+        }),
         new CopyWebpackPlugin([...assets], {
           ignore: ['.DS_Store']
         })
