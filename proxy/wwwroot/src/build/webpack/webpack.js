@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 
 const assets = [
   {
@@ -30,7 +29,7 @@ module.exports = (env) => {
         extensions: [ '.tsx', '.ts', '.js' ],
       },
       plugins: [
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin([env.outputFolder]),
         new webpack.ProgressPlugin(),
         new HtmlWebpackPlugin({
           filename: 'index.html',
@@ -40,13 +39,6 @@ module.exports = (env) => {
             minifyCSS: true,
             minifyJS: true
           }
-        }),
-        new CspHtmlWebpackPlugin({
-          'default-src': "'self'",
-          'base-uri': "'self'",
-          'object-src': "'none'",
-          'script-src': ["'self'"],
-          'style-src': ["'self'"]
         }),
         new CopyWebpackPlugin([...assets], {
           ignore: ['.DS_Store']

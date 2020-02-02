@@ -1,9 +1,10 @@
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +12,7 @@ using ProxyKit;
 using IdentityModel.Client;
 
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 
 using proxy.Configuration;
 using proxy.Middleware;
@@ -22,15 +23,29 @@ namespace proxy
     {
         private readonly IConfiguration _configuration;
 
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
+            _environment = env;
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            if (_environment.IsProduction())
+            {
+                // Configure HSTS
+                services.AddHsts(options =>
+                {
+                    options.Preload = true;
+                    options.IncludeSubDomains = true;
+                    options.MaxAge = TimeSpan.FromDays(365);
+                });
+            }
+
             // Add proxy kit services
             services.AddProxy();
 
@@ -40,6 +55,9 @@ namespace proxy
             // Rest of application guff and auth setup.
             services.AddMvcCore(options => options.EnableEndpointRouting = false)
                 .AddAuthorization();
+
+            // Configuration
+            services.Configure<CspSettings>(_configuration.GetSection("CSP"));
 
             services.AddAuthentication(options =>
             {
@@ -78,7 +96,20 @@ namespace proxy
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+
+            // Add middleware to set the report-to CSP header
+            app.UseMiddleware<ReportToHeaderMiddleware>();
 
             // 1. Need this to solve issue with cookie redirects form external providers.
             app.UseMiddleware<SameSiteCookieRedirectMiddleware>();

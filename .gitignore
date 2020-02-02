@@ -4,6 +4,7 @@
 project.lock.json
 .DS_Store
 *.pyc
+*.pfx
 
 # Visual Studio Code
 .vscode
@@ -14,6 +15,7 @@ project.lock.json
 *.user
 *.userosscache
 *.sln.docstates
+*.local.json
 
 # Build results
 [Dd]ist/
@@ -24,6 +26,7 @@ project.lock.json
 [Rr]eleases/
 x64/
 x86/
+
 # build/
 bld/
 [Bb]in/

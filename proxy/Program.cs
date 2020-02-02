@@ -1,4 +1,6 @@
 using System.IO;
+using System.Net;
+using System.Security.Authentication;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,17 +10,13 @@ namespace proxy
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    config.AddJsonFile(
-                        "appsettings.json", optional: false, reloadOnChange: true);
+                    config.AddJsonFile("appsettings.json", false, true);
+                    config.AddJsonFile("appsettings.local.json", false, true);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -26,5 +24,11 @@ namespace proxy
                         .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "dist"))
                         .UseStartup<Startup>();
                 });
+        }
+
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
     }
 }
