@@ -109,7 +109,7 @@ namespace proxy
             app.UseHttpsRedirection();
 
             // Add middleware to set the report-to CSP header
-            app.UseMiddleware<ReportToHeaderMiddleware>();
+            app.UseMiddleware<SecurityHeadersMiddleware>();
 
             // 1. Need this to solve issue with cookie redirects form external providers.
             app.UseMiddleware<SameSiteCookieRedirectMiddleware>();

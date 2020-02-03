@@ -9,11 +9,11 @@ using proxy.Configuration;
 
 namespace proxy.Middleware
 {
-    public class ReportToHeaderMiddleware
+    public class SecurityHeadersMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public ReportToHeaderMiddleware(RequestDelegate next)
+        public SecurityHeadersMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -29,7 +29,7 @@ namespace proxy.Middleware
                 "default-src 'self'; " +
                 "base-uri 'self'; " +
                 "object-src 'none'; " +
-                "script-src 'self' 'unsafe-eval'; " +
+                "script-src 'self'; " +
                 "style-src 'self'; " +
                 $"report-uri {reportUriEndpoints}";
 

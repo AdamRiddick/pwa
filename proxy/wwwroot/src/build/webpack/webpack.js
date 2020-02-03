@@ -20,7 +20,7 @@ module.exports = (env) => {
       module: {
         rules: [
           {
-            exclude: /node_modules/,
+            exclude: /node_modules|modules/,
             test: /\.tsx?$/,
           },
         ]
