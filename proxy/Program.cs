@@ -13,6 +13,7 @@ namespace proxy
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
+                
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     config.AddJsonFile("appsettings.json", false, true);
@@ -21,6 +22,10 @@ namespace proxy
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
+                        .ConfigureKestrel(kestrelServerOptions =>
+                        {
+                            kestrelServerOptions.AddServerHeader = false;
+                        })
                         .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "dist"))
                         .UseStartup<Startup>();
                 });
