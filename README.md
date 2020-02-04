@@ -6,7 +6,10 @@ The overall concept is simple - create a solution that allows the technologies a
 
 ## Installation
 
-Clone and then from the `proxy` folder, run `dotnet run`
+* Clone
+* Setup local settings: [See The Wiki](https://github.com/AdamRiddick/pwa/wiki/The-Development-Experience)
+* Execute `.\build.ps1` in Powershell
+* Run `dotnet run` from the `proxy` folder
 
 ## Usage
 
